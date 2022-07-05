@@ -1,0 +1,38 @@
+---
+version: "2"
+volumes:
+  media:
+   name: media
+   driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.20,nolock,soft,rw"
+      device: ":/mnt/tank/media"
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Kiev
+    volumes:
+      - /home/piotr/transmission:/config
+      - media:/downloads
+      - /home/piotr/transmission/incomplete:/incomplete
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+    volumes:
+      - /home/piotr/plex/data:/config
+      - media:/media
+    restart: unless-stopped
