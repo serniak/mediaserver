@@ -8,6 +8,7 @@ volumes:
       o: 'addr=192.168.1.20,nolock,soft,rw'
       device: ":/mnt/tank/media"
 services:
+  nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     ports:
       - '80:80'
