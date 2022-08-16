@@ -8,25 +8,12 @@ volumes:
       o: "addr=192.168.1.20,nolock,soft,rw"
       device: ":/mnt/tank/media"
 services:
-  heimdall:
-    image: lscr.io/linuxserver/heimdall:latest
-    container_name: heimdall
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Kiev
-    volumes:
-      - /home/piotr/heimdall/config:/config
-    ports:
-      - 8000:80
-      - 443:443
-    restart: unless-stopped
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     ports:
-      - 8080:8080
-      - 8181:8181
-      - 44343:44343
+      - 80:80
+      - 81:81
+      - 443:443
     volumes:
       - /home/piotr/nginx-proxy-manager/data:/data
       - /home/piotr/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
